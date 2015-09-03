@@ -5,7 +5,7 @@ import re
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
-urls = list()
+urls = {}#list()
 rootUrl = "https://www.reddit.com"
 domain = urlparse(rootUrl).hostname
 
@@ -17,7 +17,7 @@ def ScrapePage( browseTo, depth):
 			pageContents = page.read().decode("utf-8")
 		except:
 			return
-		urls.append(browseTo)
+		urls[browseTo] = browseTo#urls.append(browseTo)
 		matchObj = re.findall( r'href=[\'"]?([^\'" >]+)', pageContents, 0)
 		for i in matchObj:
 			goodUrl = urljoin(browseTo, i)
@@ -36,7 +36,7 @@ def ScrapePage2(browseTo):
 		goodUrl = urljoin(browseTo, i)
 		if goodUrl not in urls and domain == urlparse(goodUrl).hostname:
 			trail.append(goodUrl)
-			urls.append(goodUrl)
+			urls[goodUrl] = goodUrl#urls.append(goodUrl)
 	while len(trail) > 0:
 		e = trail.pop()
 		print(e)
@@ -50,7 +50,7 @@ def ScrapePage2(browseTo):
 			goodUrl = urljoin(e, i)
 			if goodUrl not in urls and domain == urlparse(goodUrl).hostname:
 				trail.append(goodUrl)
-				urls.append(goodUrl)	
+				urls[goodUrl] = goodUrl#urls.append(goodUrl)	
 				
 ScrapePage2(rootUrl)
 
