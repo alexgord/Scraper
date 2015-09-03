@@ -2,12 +2,14 @@
 
 import urllib.request
 import re
+import sys
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 
 urls = {}#list()
-rootUrl = "https://www.reddit.com"
+rootUrl = sys.argv[1]#"https://www.reddit.com"
 domain = urlparse(rootUrl).hostname
+lookingFor = sys.argv[2]
 
 def ScrapePage( browseTo, depth):
 	if browseTo not in urls and domain == urlparse(browseTo).hostname:
@@ -32,6 +34,9 @@ def ScrapePage2(browseTo):
 	except:
 		return
 	matchObj = re.findall( r'href=[\'"]?([^\'" >]+)', pageContents, 0)
+	lookObj = re.findAll(lookingFor, pageContents, 0)
+	if(len(lookObj) > 0)
+		print("Ding! on " + browseTo)
 	for i in matchObj:
 		goodUrl = urljoin(browseTo, i)
 		if goodUrl not in urls and domain == urlparse(goodUrl).hostname:
